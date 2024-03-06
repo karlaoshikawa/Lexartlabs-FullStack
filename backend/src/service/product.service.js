@@ -64,5 +64,29 @@ async function getAllProducts() {
   }
 }
 
+async function updateProductById(productId, productData) {
+  try {
+    const product = await Product.findByPk(productId);
+    if (!product) {
+      return { success: false, message: "Product not found." };
+    }
 
-module.exports = { insertProduct, getAllProducts };
+    await product.update({
+      name: productData.name,
+      brand: productData.brand,
+      model: productData.model,
+      price: productData.price,
+      color: productData.color,
+    });
+
+    return { success: true, message: "Product updated successfully." };
+  } catch (error) {
+    console.error("Error updating product:", error);
+    return {
+      success: false,
+      message: "An error occurred while updating the product.",
+    };
+  }
+}
+
+module.exports = { insertProduct, getAllProducts, updateProductById };
