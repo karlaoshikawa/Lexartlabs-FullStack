@@ -8,11 +8,10 @@ const port = process.env.PORT || 3000;
 
 const userRoute = require("./routes/user.router");
 
-
 const app = express();
 app.use(express.json());
 
-const url = "http://localhost:3000";
+const url = "https://backend-lime-kappa.vercel.app/";
 
 const corsOptions = {
   origin: url,
@@ -21,7 +20,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
-  res.send("process.env.POSTGRES_DATABASE");
+  res.send("Hello!!");
 });
 app.use("/users", userRoute);
 

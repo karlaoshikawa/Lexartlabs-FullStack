@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define("User", {
+  const Users = sequelize.define("Users", {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -22,5 +22,5 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
   });
-  return User;
+  return Users;
 };
