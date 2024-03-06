@@ -1,16 +1,36 @@
 require("dotenv").config();
 
+const pg = require("pg");
 const express = require("express");
-const { Sequelize } = require("sequelize");
+const cors = require("cors");
+
+const port = process.env.PORT || 3000;
+
+const userRoute = require("./routes/user.router");
+
 
 const app = express();
+app.use(express.json());
 
-const PORT = process.env.PORT || 3000;
+const url = "http://localhost:3000";
+
+const corsOptions = {
+  origin: url,
+};
+
+app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
-  res.send("Olá, mundo!");
+  res.send("process.env.POSTGRES_DATABASE");
+});
+app.use("/users", userRoute);
+
+const { Pool } = pg;
+
+const pool = new Pool({
+  connectionString: process.env.POSTGRES_URL,
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(port, () => console.log(`Server is running on port ${port}`));
+
+module.exports = app;
