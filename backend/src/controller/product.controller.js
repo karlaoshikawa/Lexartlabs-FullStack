@@ -23,9 +23,7 @@ const getAllProducts = async (req, res) => {
     const products = await productService.getAllProducts();
     res.status(200).json(products);
   } catch (error) {
-    res
-      .status(400)
-      .json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -41,8 +39,20 @@ async function updateProductById(req, res) {
   }
 }
 
+async function deleteProduct(req, res) {
+  const productId = req.params.id;
+  try {
+    const result = await productService.deleteProduct(productId);
+    res.status(200).json({ message: result.message });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+
 module.exports = {
   createProduct,
   getAllProducts,
   updateProductById,
+  deleteProduct,
 };

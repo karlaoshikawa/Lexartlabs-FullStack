@@ -89,4 +89,23 @@ async function updateProductById(productId, productData) {
   }
 }
 
-module.exports = { insertProduct, getAllProducts, updateProductById };
+const deleteProduct = async (productId) => {
+  try {
+    const product = await Product.findByPk(productId);
+    if (!product) {
+      throw new Error("Product not found");
+    }
+
+    await product.destroy();
+    return { message: "Product deleted successfully" };
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+module.exports = {
+  insertProduct,
+  getAllProducts,
+  updateProductById,
+  deleteProduct,
+};
