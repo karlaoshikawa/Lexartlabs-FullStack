@@ -1,5 +1,6 @@
 const User = require("../models/index").Users;
 const bcrypt = require("bcrypt");
+const { createToken } = require("../auth/authToken");
 
 const getByEmail = async (email) => {
   try {
@@ -21,7 +22,28 @@ const createUser = async (name, email, password) => {
   }
 };
 
+const userLogin = async (userData) => {
+  const { email, password } = userData;
+
+  const user = await User.findOne({ where: { email } });
+
+  if (!user) {
+    throw new Error("User Not Found");
+  }
+
+  const match = await bcrypt.compare(password, user.password);
+
+  if (!match) {
+    throw new Error("Invalid Password");
+  }
+
+  const token = createToken({ userId: user.id });
+
+  return { email, token };
+};
+
 module.exports = {
   createUser,
   getByEmail,
+  userLogin,
 };
