@@ -7,6 +7,7 @@ const cors = require("cors");
 const port = process.env.PORT || 3000;
 
 const userRoute = require("./routes/user.router");
+const productRoute = require("./routes/product.router");
 
 const app = express();
 app.use(express.json());
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
   res.send("Hello!!");
 });
 app.use("/users", userRoute);
+app.use("/products", productRoute);
 
 const { Pool } = pg;
 
