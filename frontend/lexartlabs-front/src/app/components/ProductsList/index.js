@@ -8,15 +8,15 @@ const ProductsList = ({ productsList }) => {
   const [maxPrice, setMaxPrice] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
 
-  // Lista de marcas únicas dos produtos
+  
   const brands = Array.from(
     new Set(productsList.map((product) => product.brand))
   );
-  // Lista de cores únicas dos produtos
+
   const colors = Array.from(
     new Set(productsList.map((product) => product.color))
   );
-  // Lista de modelos únicos dos produtos
+
   const models = Array.from(
     new Set(productsList.map((product) => product.model))
   );

@@ -4,6 +4,7 @@ import styles from "../page.module.css";
 import ProductsList from "../components/ProductsList";
 import { useEffect, useState } from "react";
 import { requestData, setToken } from "../api";
+import ProductLinks from "../components/linksList";
 
 export default function Products() {
   const [isLogged, setIsLogged] = useState(false);
@@ -47,8 +48,9 @@ export default function Products() {
   // }, []);
 
   return (
-    <main className={styles.main}>
+    <div className={styles.main}>
+      <ProductLinks/>
       {isLogged && <ProductsList productsList={productsList} />}
-    </main>
+    </div>
   );
 }
