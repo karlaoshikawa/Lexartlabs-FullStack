@@ -12,10 +12,10 @@ const productRoute = require("./routes/product.router");
 const app = express();
 app.use(express.json());
 
-const url = "https://backend-lime-kappa.vercel.app/";
+// const url = "https://backend-lime-kappa.vercel.app/";
 
 const corsOptions = {
-  origin: url,
+  origin: true,
 };
 
 app.use(cors(corsOptions));
