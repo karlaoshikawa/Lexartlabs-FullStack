@@ -2,12 +2,16 @@
 
 import { requestRegister } from "@/app/api";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
+  const router = useRouter();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isUser, setIsUser] = useState(true);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -36,8 +40,10 @@ const RegisterForm = () => {
 
     try {
       await requestRegister("/users/register", { name, email, password });
-      window.location.reload();
-      console.log("sucesso");
+        setIsUser(!isUser);
+        if (!isUser) {
+          router.push("/login");
+        }
     } catch (error) {
       setError("registro inválido, por favor tente novamente");
     }
@@ -50,6 +56,13 @@ const RegisterForm = () => {
 
   const emailIsValid = (email) => {
     return /\S+@\S+\.\S+/.test(email);
+  };
+
+  const handleClick = () => {
+    setIsUser(!isUser);
+    if (!isUser) {
+      router.push("/login");
+    }
   };
 
   return (
@@ -92,6 +105,7 @@ const RegisterForm = () => {
         {error && <p>{error}</p>}
         <button type="submit">Registrar</button>
       </form>
+      <p onClick={handleClick}>Já sou cadastrado!</p>
     </div>
   );
 };

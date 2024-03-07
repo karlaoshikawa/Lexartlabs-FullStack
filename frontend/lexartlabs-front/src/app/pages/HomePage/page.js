@@ -1,7 +1,7 @@
 "use client";
 
 import LoginForm from "@/app/components/LoginForm";
-import RegisterForm from "@/app/components/Register";
+import RegisterForm from "@/app/components/RegisterForm";
 import { useEffect, useState } from "react";
 
 const HomePage = () => {
@@ -19,7 +19,7 @@ const HomePage = () => {
 
   return (
     <div>
-      {isLogged === false ?(
+      {isLogged === false ? (
         <div>
           {isUser ? (
             <div>
