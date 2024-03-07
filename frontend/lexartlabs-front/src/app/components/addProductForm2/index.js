@@ -1,7 +1,10 @@
 "use client";
+import { requestRegister, setToken } from "@/app/api";
 import { useState } from "react";
 
 const AddProductForm2 = () => {
+  const [error, setError] = useState("");
+
   const [product, setProduct] = useState({
     name: "",
     details: {
@@ -31,10 +34,29 @@ const AddProductForm2 = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const tokenStorage = localStorage.getItem("user");
+      const tokenObject = JSON.parse(tokenStorage);
+      const token = tokenObject.token;
+      console.log("token", tokenStorage);
+      setToken(token);
+      await requestRegister("/products/newProduct", product, token);
+    } catch (error) {
+      setError("registro inválido, por favor tente novamente");
+    }
+
+    setProduct({
+      name: "",
+      details: {
+        brand: "",
+        model: "",
+        color: "",
+      },
+      price: 0,
+    });
     console.log(product);
-    // Aqui você pode enviar o produto para o backend ou realizar outras operações
   };
 
   return (

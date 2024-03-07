@@ -22,7 +22,7 @@ export const requestInsert = async (endpoint, body, token) => {
 
 export const requestUpdate = async (endpoint, body, token) => {
   setToken(token);
-  const { data } = await api.put(endpoint, body);
+  const { data } = await api.post(endpoint, body);
   return data;
 };
 
@@ -31,7 +31,7 @@ export const requestRegister = async (endpoint, body) => {
   return data;
 };
 
-export const requestDeleteUser = async (endpoint, token) => {
+export const requestDelete = async (endpoint, token) => {
   setToken(token);
   const { data } = await api.delete(endpoint);
   return data;

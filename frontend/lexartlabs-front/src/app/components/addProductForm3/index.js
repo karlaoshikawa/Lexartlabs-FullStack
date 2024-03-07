@@ -1,7 +1,9 @@
 "use client";
+import { requestRegister, setToken } from "@/app/api";
 import { useState } from "react";
 
-const AddProductForm = () => {
+const AddProductForm3 = () => {
+  const [error, setError] = useState("");
   const [products, setProducts] = useState([
     {
       name: "",
@@ -11,10 +13,15 @@ const AddProductForm = () => {
     },
   ]);
 
-  const handleInputChange = (e, index) => {
+  const handleInputChange = (e, index, dataIndex) => {
     const { name, value } = e.target;
     const updatedProducts = [...products];
-    updatedProducts[index] = { ...updatedProducts[index], [name]: value };
+    if (dataIndex !== undefined) {
+      updatedProducts[index].data[dataIndex][name] = value;
+    } else {
+      
+      updatedProducts[index][name] = value;
+    }
     setProducts(updatedProducts);
   };
 
@@ -24,9 +31,19 @@ const AddProductForm = () => {
     setProducts(updatedProducts);
   };
 
-  const addProduct = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const tokenStorage = localStorage.getItem("user");
+      const tokenObject = JSON.parse(tokenStorage);
+      const token = tokenObject.token;
+      setToken(token);
+      await requestRegister("/products/newProduct", products, token);
+    } catch (error) {
+      setError("registro inválido, por favor tente novamente");
+    }
+
     setProducts([
-      ...products,
       {
         name: "",
         brand: "",
@@ -36,15 +53,9 @@ const AddProductForm = () => {
     ]);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(products);
-    // Aqui você pode enviar os produtos para o backend ou realizar outras operações
-  };
-
   return (
     <div>
-      <h2>Adicionar Produtos</h2>
+      <h2>Adicionar Produtos Estrutura 3</h2>
       <form onSubmit={handleSubmit}>
         {products.map((product, index) => (
           <div key={index}>
@@ -54,7 +65,7 @@ const AddProductForm = () => {
               <input
                 type="text"
                 id={`name-${index}`}
-                name={`name-${index}`}
+                name="name"
                 value={product.name}
                 onChange={(e) => handleInputChange(e, index)}
               />
@@ -64,7 +75,7 @@ const AddProductForm = () => {
               <input
                 type="text"
                 id={`brand-${index}`}
-                name={`brand-${index}`}
+                name="brand"
                 value={product.brand}
                 onChange={(e) => handleInputChange(e, index)}
               />
@@ -74,7 +85,7 @@ const AddProductForm = () => {
               <input
                 type="text"
                 id={`model-${index}`}
-                name={`model-${index}`}
+                name="model"
                 value={product.model}
                 onChange={(e) => handleInputChange(e, index)}
               />
@@ -87,9 +98,9 @@ const AddProductForm = () => {
                   <input
                     type="number"
                     id={`price-${index}-${dataIndex}`}
-                    name={`price-${index}-${dataIndex}`}
+                    name="price"
                     value={data.price}
-                    onChange={(e) => handleInputChange(e, index)}
+                    onChange={(e) => handleInputChange(e, index, dataIndex)}
                   />
                 </div>
                 <div>
@@ -97,9 +108,9 @@ const AddProductForm = () => {
                   <input
                     type="text"
                     id={`color-${index}-${dataIndex}`}
-                    name={`color-${index}-${dataIndex}`}
+                    name="color"
                     value={data.color}
-                    onChange={(e) => handleInputChange(e, index)}
+                    onChange={(e) => handleInputChange(e, index, dataIndex)} 
                   />
                 </div>
               </div>
@@ -109,14 +120,10 @@ const AddProductForm = () => {
             </button>
           </div>
         ))}
-        <button type="button" onClick={addProduct}>
-          Adicionar Produto
-        </button>
         <button type="submit">Enviar</button>
       </form>
     </div>
   );
 };
 
-export default AddProductForm;
-
+export default AddProductForm3;
