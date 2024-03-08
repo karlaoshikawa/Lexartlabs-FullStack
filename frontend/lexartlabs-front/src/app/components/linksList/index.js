@@ -13,11 +13,6 @@ const ProductLinks = () => {
           <div>Adicionar Produto</div>
         </Link>
       </div>
-      <div>
-        <Link href="/delete-product">
-          <div>Excluir Produto</div>
-        </Link>
-      </div>
     </div>
   );
 };
